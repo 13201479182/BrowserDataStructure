@@ -11,7 +11,7 @@ module.exports = {
 
     // 0关闭 1提示 2错误
     rules: {
-        'prettier/prettier': 1,
+        'prettier/prettier': 2,
 
         // 禁止没使用的变量
         'no-unused-vars': 2,
@@ -56,5 +56,5 @@ module.exports = {
         },
     ],
 
-    ignorePatterns: ['!.prettierrc.js'],
+    ignorePatterns: ['!.prettierrc.js', 'dist/*'],
 };

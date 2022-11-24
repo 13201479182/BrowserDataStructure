@@ -1,11 +1,10 @@
 {
-    "name": "web-font-data-structure",
+    "name": "webfont-data-structure",
     "version": "1.0.0",
     "description": "前端数据结构",
     "main": "index.js",
     "scripts": {
-        "build:esm": "set target=esm && node ./esbuild.config.js",
-        "build:cjs": "set target=cjs && node ./esbuild.config.js",
+        "build": "node ./esbuild.config.js",
         "lint": "eslint .",
         "lint:fix": "eslint --fix --ext .js,.cjs,.ts, .",
         "commit": "gitmoji -c"
@@ -25,6 +24,8 @@
         "@typescript-eslint/eslint-plugin": "^5.44.0",
         "@typescript-eslint/parser": "^5.44.0",
         "esbuild": "^0.15.15",
+        "esbuild-plugin-eslint": "^0.1.1",
+        "esbuild-plugin-progress": "^1.0.1",
         "eslint": "^8.28.0",
         "eslint-config-prettier": "^8.5.0",
         "eslint-plugin-prettier": "^4.2.1",
