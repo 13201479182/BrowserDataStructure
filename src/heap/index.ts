@@ -1,25 +1,9 @@
-/** @format */
-
-const a = 1;
-
-function b() {
-    return 1 === 1;
+class Heap {
+    constructor() {
+        console.log('Heap');
+    }
 }
 
-const c = (req: string) => {
-    console.log(req);
-    1;
-    1;
-    1;
-    1;
-    1;
-    1;
-    1;
-};
-
-console.log(c, b);
-
-//  eslint-plugin-prettier
 export default {
-    a: a,
+    Heap,
 };

@@ -6,9 +6,8 @@ module.exports = {
         node: true,
     },
 
-    extends: ['eslint:recommended', 'plugin:@typescript-eslint/recommended', 'prettier'],
-    parser: '@typescript-eslint/parser',
-    plugins: ['@typescript-eslint', 'prettier'],
+    extends: ['prettier'],
+    plugins: ['prettier'],
 
     // 0关闭 1提示 2错误
     rules: {
@@ -43,6 +42,19 @@ module.exports = {
         // 子类必须调用父类super
         'constructor-super': 2,
     },
+
+    overrides: [
+        {
+            files: ['src/**/*.ts'],
+            extends: ['plugin:@typescript-eslint/recommended'],
+            parser: '@typescript-eslint/parser',
+            plugins: ['@typescript-eslint'],
+        },
+        {
+            files: ['*.js', '*.cjs'],
+            extends: ['eslint:recommended'],
+        },
+    ],
 
     ignorePatterns: ['!.prettierrc.js'],
 };

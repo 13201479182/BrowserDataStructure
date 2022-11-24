@@ -4,11 +4,11 @@
     "description": "前端数据结构",
     "main": "index.js",
     "scripts": {
-        "b:esm": "set target=esm && node ./esbuild.config.ts",
-        "b:cjs": "set target=cjs && node ./esbuild.config.ts",
+        "build:esm": "set target=esm && node ./esbuild.config.js",
+        "build:cjs": "set target=cjs && node ./esbuild.config.js",
         "lint": "eslint .",
         "lint:fix": "eslint --fix --ext .js,.cjs,.ts, .",
-        "c": "gitmoji -c"
+        "commit": "gitmoji -c"
     },
     "repository": {
         "type": "git",
