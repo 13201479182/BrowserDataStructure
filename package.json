@@ -1,0 +1,35 @@
+{
+    "name": "web-font-data-structure",
+    "version": "1.0.0",
+    "description": "前端数据结构",
+    "main": "index.js",
+    "scripts": {
+        "b:esm": "set target=esm && node ./esbuild.config.ts",
+        "b:cjs": "set target=cjs && node ./esbuild.config.ts",
+        "lint": "eslint .",
+        "lint:fix": "eslint --fix --ext .js,.cjs,.ts, .",
+        "c": "gitmoji -c"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/13201479182/web-font-data-structure.git"
+    },
+    "author": "刘汇源",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/13201479182/web-font-data-structure/issues"
+    },
+    "homepage": "https://github.com/13201479182/web-font-data-structure#readme",
+    "devDependencies": {
+        "@types/node": "^18.11.9",
+        "@typescript-eslint/eslint-plugin": "^5.44.0",
+        "@typescript-eslint/parser": "^5.44.0",
+        "esbuild": "^0.15.15",
+        "eslint": "^8.28.0",
+        "eslint-config-prettier": "^8.5.0",
+        "eslint-plugin-prettier": "^4.2.1",
+        "gitmoji-cli": "^7.0.2",
+        "prettier": "^2.8.0",
+        "typescript": "^4.9.3"
+    }
+}

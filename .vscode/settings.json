@@ -1,0 +1,10 @@
+{   
+    "prettier.configPath": "../.prettier.js",
+
+    "files.autoSave": "onFocusChange",
+
+    "eslint.format.enable": true,
+    "editor.codeActionsOnSave": {
+        "source.fixAll.eslint": true
+    },
+}
