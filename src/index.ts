@@ -1,16 +1,9 @@
-import Heap from './heap/index';
-import Stack from './stack/index';
-
-interface ExtendWindow extends Window {
-    dataStructor?: any;
-}
+import * as heap from './heap/index';
+import * as stack from './stack/index';
 
 const dataStructor = {
-    ...Heap,
-    ...Stack,
+    ...heap,
+    ...stack,
 };
 
-if (typeof window) {
-    const extendWindow: ExtendWindow = window;
-    extendWindow.dataStructor = dataStructor;
-}
+export default dataStructor;

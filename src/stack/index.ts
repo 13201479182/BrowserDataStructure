@@ -1,9 +1,9 @@
-class Stack {
+export class Stack {
     constructor() {
         console.log('Stack');
     }
-}
 
-export default {
-    Stack,
-};
+    add(num1: number, num2: number) {
+        return num1 + num2;
+    }
+}
