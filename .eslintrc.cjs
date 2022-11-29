@@ -56,5 +56,5 @@ module.exports = {
         },
     ],
 
-    ignorePatterns: ['!.prettierrc.js', 'dist/*'],
+    ignorePatterns: ['!.prettierrc.cjs', 'dist/*'],
 };
