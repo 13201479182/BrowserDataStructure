@@ -4,6 +4,4 @@ class Heap {
     }
 }
 
-export default {
-    Heap,
-};
+export default Heap;

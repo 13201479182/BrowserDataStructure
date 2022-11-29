@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["../src/heap/index.ts", "../src/stack/index.ts", "../src/index.ts"],
-  "sourcesContent": ["class Heap {\r\n    constructor() {\r\n        console.log('Heap');\r\n    }\r\n}\r\n\r\nexport default {\r\n    Heap,\r\n};\r\n", "class Stack {\r\n    constructor() {\r\n        console.log('Stack');\r\n    }\r\n}\r\n\r\nexport default {\r\n    Stack,\r\n};\r\n", "import Heap from './heap/index';\r\nimport Stack from './stack/index';\r\n\r\ninterface ExtendWindow extends Window {\r\n    dataStructor?: any;\r\n}\r\n\r\nconst dataStructor = {\r\n    ...Heap,\r\n    ...Stack,\r\n};\r\n\r\nif (typeof window) {\r\n    const extendWindow: ExtendWindow = window;\r\n    extendWindow.dataStructor = dataStructor;\r\n}\r\n"],
-  "mappings": ";;;AAAA,MAAM,OAAN,MAAW;AAAA,IACP,cAAc;AACV,cAAQ,IAAI,MAAM;AAAA,IACtB;AAAA,EACJ;AAEA,MAAO,eAAQ;AAAA,IACX;AAAA,EACJ;;;ACRA,MAAM,QAAN,MAAY;AAAA,IACR,cAAc;AACV,cAAQ,IAAI,OAAO;AAAA,IACvB;AAAA,EACJ;AAEA,MAAO,gBAAQ;AAAA,IACX;AAAA,EACJ;;;ACDA,MAAM,eAAe;AAAA,IACjB,GAAG;AAAA,IACH,GAAG;AAAA,EACP;AAEA,MAAI,OAAO,QAAQ;AACf,UAAM,eAA6B;AACnC,iBAAa,eAAe;AAAA,EAChC;",
-  "names": []
-}

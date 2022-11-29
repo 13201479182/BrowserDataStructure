@@ -1,9 +1,9 @@
-import * as heap from './heap/index';
-import * as stack from './stack/index';
+import Heap from './heap/index';
+import Stack from './stack/index';
 
 const dataStructor = {
-    ...heap,
-    ...stack,
+    Heap,
+    Stack,
 };
 
 export default dataStructor;

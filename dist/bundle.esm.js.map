@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../src/heap/index.ts", "../src/stack/index.ts", "../src/index.ts"],
+  "sourcesContent": ["class Heap {\r\n    constructor() {\r\n        console.log('Heap');\r\n    }\r\n}\r\n\r\nexport default Heap;\r\n", "class Stack {\r\n    constructor() {\r\n        console.log('Stack');\r\n    }\r\n\r\n    add(num1: number, num2: number) {\r\n        return num1 + num2;\r\n    }\r\n}\r\n\r\nexport default Stack;\r\n", "import Heap from './heap/index';\r\nimport Stack from './stack/index';\r\n\r\nconst dataStructor = {\r\n    Heap,\r\n    Stack,\r\n};\r\n\r\nexport default dataStructor;\r\n"],
+  "mappings": ";AAAA,IAAM,OAAN,MAAW;AAAA,EACP,cAAc;AACV,YAAQ,IAAI,MAAM;AAAA,EACtB;AACJ;AAEA,IAAO,eAAQ;;;ACNf,IAAM,QAAN,MAAY;AAAA,EACR,cAAc;AACV,YAAQ,IAAI,OAAO;AAAA,EACvB;AAAA,EAEA,IAAI,MAAc,MAAc;AAC5B,WAAO,OAAO;AAAA,EAClB;AACJ;AAEA,IAAO,gBAAQ;;;ACPf,IAAM,eAAe;AAAA,EACjB;AAAA,EACA;AACJ;AAEA,IAAO,cAAQ;",
+  "names": []
+}
