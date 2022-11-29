@@ -1,2 +1,51 @@
-"use strict";var c=Object.defineProperty;var m=Object.getOwnPropertyDescriptor;var p=Object.getOwnPropertyNames;var d=Object.prototype.hasOwnProperty;var f=(r,o)=>{for(var t in o)c(r,t,{get:o[t],enumerable:!0})},x=(r,o,t,s)=>{if(o&&typeof o=="object"||typeof o=="function")for(let e of p(o))!d.call(r,e)&&e!==t&&c(r,e,{get:()=>o[e],enumerable:!(s=m(o,e))||s.enumerable});return r};var b=r=>x(c({},"__esModule",{value:!0}),r);var i={};f(i,{default:()=>g});module.exports=b(i);var l=class{constructor(){console.log("Heap")}},u=l;var a=class{constructor(){console.log("Stack")}add(o,t){return o+t}},n=a;var g={Heap:u,Stack:n};
+"use strict";
+var __defProp = Object.defineProperty;
+var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
+var __getOwnPropNames = Object.getOwnPropertyNames;
+var __hasOwnProp = Object.prototype.hasOwnProperty;
+var __export = (target, all) => {
+  for (var name in all)
+    __defProp(target, name, { get: all[name], enumerable: true });
+};
+var __copyProps = (to, from, except, desc) => {
+  if (from && typeof from === "object" || typeof from === "function") {
+    for (let key of __getOwnPropNames(from))
+      if (!__hasOwnProp.call(to, key) && key !== except)
+        __defProp(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable });
+  }
+  return to;
+};
+var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
+
+// src/index.ts
+var src_exports = {};
+__export(src_exports, {
+  default: () => src_default
+});
+module.exports = __toCommonJS(src_exports);
+
+// src/heap/index.ts
+var Heap = class {
+  constructor() {
+    console.log("Heap");
+  }
+};
+var heap_default = Heap;
+
+// src/stack/index.ts
+var Stack = class {
+  constructor() {
+    console.log("Stack");
+  }
+  add(num1, num2) {
+    return num1 + num2;
+  }
+};
+var stack_default = Stack;
+
+// src/index.ts
+var src_default = {
+  Heap: heap_default,
+  Stack: stack_default
+};
 //# sourceMappingURL=bundle.cjs.cjs.map
