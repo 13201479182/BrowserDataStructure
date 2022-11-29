@@ -35,16 +35,21 @@ function iifeResourcePlugin() {
         name: 'iifeResourcePlugin',
         setup(build) {
             build.onLoad({ filter: /src\\index\.ts$/ }, (args) => {
+                // iife需要在window上暴露
                 if (target === 'iife') {
-                    let content = fs.readFileSync(args.path, 'utf-8');
-                    content += `
+                    let code = fs.readFileSync(args.path, 'utf-8'),
+                        modules = code.match(/(?<=import\s)[a-zA-Z]+/g);
+
+                    code += `
                         if (typeof window) {
-                            window.webfontDataStructor = dataStructor
+                            window.dataStructor = {
+                                ${modules.join()}
+                            }
                         }
                     `;
 
                     return {
-                        contents: content,
+                        contents: code,
                         loader: 'js',
                     };
                 }

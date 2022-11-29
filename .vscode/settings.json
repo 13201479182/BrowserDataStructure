@@ -1,5 +1,5 @@
 {
-    "prettier.configPath": "../.prettierrc.cjs",
+    "prettier.configPath": ".prettierrc.cjs",
 
     "files.autoSave": "onFocusChange",
 

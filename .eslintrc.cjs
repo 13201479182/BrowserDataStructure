@@ -53,6 +53,9 @@ module.exports = {
         {
             files: ['*.js', '*.cjs'],
             extends: ['eslint:recommended'],
+            parserOptions: {
+                ecmaVersion: 2018,
+            },
         },
     ],
 

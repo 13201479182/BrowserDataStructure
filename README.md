@@ -6,6 +6,9 @@
 - [2.prettier rules](https://eslint.org/docs/latest/rules/)
 - [3.esbuild plugins](https://github.com/esbuild/community-plugins)
 
+## 文档
+- [1.typescript](https://jkchao.github.io/typescript-book-chinese/project/compilationContext.html)
+
 ## article
 - [1.cjs esm](https://juejin.cn/post/7048276970768957477)
 
