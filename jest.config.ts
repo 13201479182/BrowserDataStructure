@@ -3,7 +3,7 @@ import type { Config } from 'jest';
 const config: Config = {
     verbose: true,
     transform: {
-        '\\.(ts|js)$': 'ts-jest',
+        '\\.ts$': 'ts-jest',
     },
     collectCoverage: true,
 };
