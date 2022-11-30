@@ -7,7 +7,7 @@
     "module": "./src/index.ts",
     "scripts": {
         "build": "set target=cjs&node ./esbuild.config.cjs && set target=esm & node ./esbuild.config.cjs && set target=iife & node ./esbuild.config.cjs",
-        "test": "jest",
+        "test": "jest && node -e require('open')('./coverage/lcov-report/index.html')",
         "lint": "eslint .",
         "lint:fix": "eslint --fix --ext .js,.cjs,.ts, .",
         "commit": "gitmoji -c"
@@ -27,7 +27,6 @@
         "@types/node": "^18.11.9",
         "@typescript-eslint/eslint-plugin": "^5.44.0",
         "@typescript-eslint/parser": "^5.44.0",
-        "babel-jest": "^29.3.1",
         "esbuild": "^0.15.15",
         "esbuild-plugin-eslint": "^0.1.1",
         "esbuild-plugin-progress": "^1.0.1",
@@ -35,6 +34,7 @@
         "eslint-config-prettier": "^8.5.0",
         "eslint-plugin-prettier": "^4.2.1",
         "gitmoji-cli": "^7.0.2",
+        "open": "^8.4.0",
         "prettier": "^2.8.0",
         "ts-jest": "^29.0.3",
         "ts-node": "^10.9.1",

@@ -1,8 +1,6 @@
 {
     "prettier.configPath": ".prettierrc.cjs",
-
     "files.autoSave": "onFocusChange",
-
     "eslint.format.enable": true,
     "editor.codeActionsOnSave": {
         "source.fixAll.eslint": true
