@@ -29,11 +29,11 @@ var Heap = class {
   constructor(data, small) {
     this.small = Boolean(small);
     if (data && data.length) {
-      this.size = data.length;
+      this.length = data.length;
       this.data = data;
       this.initHeap();
     } else {
-      this.size = 0;
+      this.length = 0;
       this.data = [];
     }
     Object.defineProperty(this, "small", {
@@ -70,6 +70,24 @@ var Heap = class {
       Heap.adjustSmallHeap(childIndex, data);
     }
   }
+  static adjustInsertBigHeap(index, data) {
+    const parentIndex = Math.floor((index - 1) / 2);
+    if (data[index] > data[parentIndex]) {
+      const temp = data[parentIndex];
+      data[parentIndex] = data[index];
+      data[index] = temp;
+      Heap.adjustInsertBigHeap(parentIndex, data);
+    }
+  }
+  static adjustInsertSmallHeap(index, data) {
+    const parentIndex = Math.floor((index - 1) / 2);
+    if (data[index] < data[parentIndex]) {
+      const temp = data[parentIndex];
+      data[parentIndex] = data[index];
+      data[index] = temp;
+      Heap.adjustInsertSmallHeap(parentIndex, data);
+    }
+  }
   initHeap() {
     if (!this.data.length) {
       return;
@@ -79,9 +97,27 @@ var Heap = class {
         this.small ? Heap.adjustSmallHeap(i, this.data) : Heap.adjustBigHeap(i, this.data);
         i--;
       }
+      return this;
+    }
+  }
+  insert(num) {
+    if (typeof num !== "number") {
+      return "insert value only support number";
+    } else {
+      this.length = this.data.push(num);
+      if (this.length > 1) {
+        if (this.small) {
+          Heap.adjustInsertSmallHeap(this.length - 1, this.data);
+        } else {
+          Heap.adjustInsertBigHeap(this.length - 1, this.data);
+        }
+      }
+      return this;
     }
   }
 };
+var global = window;
+global.heap = new Heap([3, 10, 19, 8, 6]);
 var heap_default = Heap;
 
 // src/stack/index.ts

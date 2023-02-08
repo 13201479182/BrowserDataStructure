@@ -1,3 +1,3 @@
-declare interface O extends Window {
-    o?: string;
+declare interface MyGlobal extends Window {
+    heap?: any;
 }

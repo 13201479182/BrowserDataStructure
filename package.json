@@ -1,8 +1,8 @@
 {
-    "name": "webfont-data-structure",
+    "name": "browser-data-structure",
     "version": "1.0.0",
     "description": "前端数据结构",
-    "main": "./dist/webfont-data-structure.js",
+    "main": "./dist/bundle.esm.js",
     "module": "./src/index.ts",
     "scripts": {
         "build": "set target=cjs&node ./esbuild.config.cjs && set target=esm & node ./esbuild.config.cjs && set target=iife & node ./esbuild.config.cjs",

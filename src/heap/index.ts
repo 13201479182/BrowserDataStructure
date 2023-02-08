@@ -1,6 +1,6 @@
 import { heapData, heapDataArguments } from './type';
 class Heap {
-    public size: number;
+    public length: number;
     public small: boolean;
     public data: heapData;
 
@@ -8,11 +8,11 @@ class Heap {
         this.small = Boolean(small);
 
         if (data && data.length) {
-            this.size = data.length;
+            this.length = data.length;
             this.data = data;
             this.initHeap();
         } else {
-            this.size = 0;
+            this.length = 0;
             this.data = [];
         }
 
@@ -73,7 +73,41 @@ class Heap {
         }
     }
 
-    // 初始化堆
+    /**
+     * 大堆插入元素后,需要向上递归更新元素位置
+     * @param index 待更新元素的索引
+     * @param data  调整的堆的物理存储
+     */
+    static adjustInsertBigHeap(index: number, data: heapData) {
+        const parentIndex = Math.floor((index - 1) / 2);
+
+        // 大堆,仅当子节点大于父节点时,需要向上调整
+        if (data[index] > data[parentIndex]) {
+            const temp = data[parentIndex];
+            data[parentIndex] = data[index];
+            data[index] = temp;
+            Heap.adjustInsertBigHeap(parentIndex, data);
+        }
+    }
+
+    /**
+     * 小堆插入元素后,需要向上递归更新元素位置
+     * @param index 待更新元素的索引
+     * @param data  调整的堆的物理存储
+     */
+    static adjustInsertSmallHeap(index: number, data: heapData) {
+        const parentIndex = Math.floor((index - 1) / 2);
+
+        // 小堆,仅当子节点小于父节点时,需要向上调整
+        if (data[index] < data[parentIndex]) {
+            const temp = data[parentIndex];
+            data[parentIndex] = data[index];
+            data[index] = temp;
+            Heap.adjustInsertSmallHeap(parentIndex, data);
+        }
+    }
+
+    // 依据data&small初始化堆
     initHeap() {
         if (!this.data.length) {
             return;
@@ -85,8 +119,32 @@ class Heap {
                 this.small ? Heap.adjustSmallHeap(i, this.data) : Heap.adjustBigHeap(i, this.data);
                 i--;
             }
+            // 返回实例自身,以支持链式操作
+            return this;
+        }
+    }
+
+    // 依据small插入数据
+    insert(num: number) {
+        if (typeof num !== 'number') {
+            return 'insert value only support number';
+        } else {
+            this.length = this.data.push(num);
+
+            if (this.length > 1) {
+                if (this.small) {
+                    Heap.adjustInsertSmallHeap(this.length - 1, this.data);
+                } else {
+                    Heap.adjustInsertBigHeap(this.length - 1, this.data);
+                }
+            }
+            // 返回实例自身,以支持链式操作
+            return this;
         }
     }
 }
+
+const global: MyGlobal = window;
+global.heap = new Heap([3, 10, 19, 8, 6]);
 
 export default Heap;
