@@ -1,5 +1,6 @@
-# webfont-data-structure
-前端数据结构
+# BrowserDataStructure
+with datastructor, we supply iife,esm,cjs three mode in browser, you can choose your bester!
+ - iife mode: we supply BDS global varible.
 
 ## code rules
 - [1.eslint rules](https://eslint.org/docs/latest/rules/)
