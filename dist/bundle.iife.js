@@ -76,9 +76,9 @@
         return this;
       }
     }
-    insert(num) {
+    insertElement(num) {
       if (typeof num !== "number") {
-        return "insert value only support number";
+        console.error("insert error: the element must be a number!");
       } else {
         this.length = this.data.push(num);
         if (this.length > 1) {
@@ -90,6 +90,18 @@
         }
         return this;
       }
+    }
+    insertElements(numArr) {
+      if (Array.isArray(numArr)) {
+        for (let i = 0, l = numArr.length; i < l; i++) {
+          if (typeof numArr[i] === "number") {
+            this.insertElement(numArr[i]);
+          } else {
+            console.error(`insert error: the index ${i} must be a number!`);
+          }
+        }
+      }
+      return this;
     }
   };
   var global = window;

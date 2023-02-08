@@ -124,10 +124,10 @@ class Heap {
         }
     }
 
-    // 依据small插入数据
-    insert(num: number) {
+    // 单个元素插入
+    insertElement(num: number) {
         if (typeof num !== 'number') {
-            return 'insert value only support number';
+            console.error('insert error: the element must be a number!');
         } else {
             this.length = this.data.push(num);
 
@@ -141,6 +141,20 @@ class Heap {
             // 返回实例自身,以支持链式操作
             return this;
         }
+    }
+
+    // 批量插入
+    insertElements(numArr: number[]) {
+        if (Array.isArray(numArr)) {
+            for (let i = 0, l = numArr.length; i < l; i++) {
+                if (typeof numArr[i] === 'number') {
+                    this.insertElement(numArr[i]);
+                } else {
+                    console.error(`insert error: the index ${i} must be a number!`);
+                }
+            }
+        }
+        return this;
     }
 }
 
