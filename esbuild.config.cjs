@@ -42,7 +42,7 @@ function iifeResourcePlugin() {
 
                     code += `
                         if (typeof window) {
-                            window.dataStructor = {
+                            window.BDS = {
                                 ${modules.join()}
                             }
                         }

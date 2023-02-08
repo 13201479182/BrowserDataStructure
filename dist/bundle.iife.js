@@ -25,7 +25,7 @@
     Stack: stack_default
   };
   if (typeof window) {
-    window.dataStructor = {
+    window.BDS = {
       Heap: heap_default,
       Stack: stack_default
     };
