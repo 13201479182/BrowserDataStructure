@@ -1,1 +1,2 @@
-export const type = 'Heap';
+export type heapData = [] | number[];
+export type heapDataArguments = undefined | heapData;

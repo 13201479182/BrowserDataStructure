@@ -1,6 +1,5 @@
 {
     "name": "webfont-data-structure",
-    "type": "module",
     "version": "1.0.0",
     "description": "前端数据结构",
     "main": "./dist/webfont-data-structure.js",
