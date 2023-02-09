@@ -2,8 +2,9 @@
 (() => {
   // src/heap/index.ts
   var Heap = class {
-    constructor(data, small) {
-      this.small = Boolean(small);
+    constructor(data, small = false, priority) {
+      small = this.small = Boolean(small);
+      priority = this.priority = priority ? priority : "";
       if (data && data.length) {
         this.length = data.length;
         this.data = data;
@@ -12,92 +13,173 @@
         this.length = 0;
         this.data = [];
       }
-      Object.defineProperty(this, "small", {
-        get() {
-          return Boolean(small);
+      Object.defineProperties(this, {
+        small: {
+          get() {
+            return small;
+          },
+          set(val) {
+            if (val && Boolean(val) !== small) {
+              small = Boolean(val);
+              this.initHeap();
+            }
+          }
         },
-        set(val) {
-          small = Boolean(val);
-          this.initHeap();
+        priority: {
+          get() {
+            return priority;
+          },
+          set(val) {
+            if (val && String(val) !== priority) {
+              priority = String(val);
+              this.initHeap();
+            }
+          }
         }
       });
     }
-    static adjustBigHeap(parentIndex, data) {
-      let childIndex = 2 * parentIndex + 1;
+    static adjustBigHeap(parentIndex, data, priority) {
+      const childIndex = 2 * parentIndex + 1;
+      let parentPriority = 0;
+      let leftPriority = 0;
+      let rightPriority = 0;
+      let maxChildIndex = childIndex;
+      let maxChildPriority = 0;
       if (childIndex >= data.length)
         return;
-      if (data[childIndex] && data[childIndex + 1] && data[childIndex + 1] > data[childIndex]) {
-        childIndex = childIndex + 1;
+      if (priority && typeof data[0] === "object") {
+        const parentNode = data[parentIndex];
+        const leftNode = data[childIndex];
+        const rightNode = data[childIndex + 1];
+        parentPriority = parentNode[priority];
+        leftPriority = leftNode[priority];
+        maxChildPriority = leftPriority;
+        rightNode ? rightPriority = rightNode[priority] : null;
+      } else {
+        parentPriority = data[parentIndex];
+        leftPriority = data[childIndex];
+        maxChildPriority = leftPriority;
+        data[childIndex + 1] ? rightPriority = data[childIndex + 1] : null;
       }
-      if (data[parentIndex] < data[childIndex]) {
+      if (data[childIndex + 1] && rightPriority > leftPriority) {
+        maxChildIndex = childIndex + 1;
+        maxChildPriority = rightPriority;
+      }
+      if (parentPriority < maxChildPriority) {
         const temp = data[parentIndex];
-        data[parentIndex] = data[childIndex];
-        data[childIndex] = temp;
-        Heap.adjustBigHeap(childIndex, data);
+        data[parentIndex] = data[maxChildIndex];
+        data[maxChildIndex] = temp;
+        Heap.adjustBigHeap(maxChildIndex, data, priority);
       }
     }
-    static adjustSmallHeap(parentIndex, data) {
-      let childIndex = 2 * parentIndex + 1;
+    static adjustSmallHeap(parentIndex, data, priority) {
+      const childIndex = 2 * parentIndex + 1;
+      let parentPriority = 0;
+      let leftPriority = 0;
+      let rightPriority = 0;
+      let minChildIndex = childIndex;
+      let minChildPriority = 0;
       if (childIndex >= data.length)
         return;
-      if (data[childIndex] && data[childIndex + 1] && data[childIndex + 1] < data[childIndex]) {
-        childIndex = childIndex + 1;
+      if (priority && typeof data[0] === "object") {
+        const parentNode = data[parentIndex];
+        const leftNode = data[childIndex];
+        const rightNode = data[childIndex + 1];
+        parentPriority = parentNode[priority];
+        leftPriority = leftNode[priority];
+        minChildPriority = leftPriority;
+        rightNode ? rightPriority = rightNode[priority] : null;
+      } else {
+        parentPriority = data[parentIndex];
+        leftPriority = data[childIndex];
+        minChildPriority = leftPriority;
+        data[childIndex + 1] ? rightPriority = data[childIndex + 1] : null;
       }
-      if (data[parentIndex] > data[childIndex]) {
+      if (data[childIndex + 1] && rightPriority > leftPriority) {
+        minChildIndex = childIndex + 1;
+        minChildPriority = rightPriority;
+      }
+      if (parentPriority < minChildPriority) {
         const temp = data[parentIndex];
-        data[parentIndex] = data[childIndex];
-        data[childIndex] = temp;
-        Heap.adjustSmallHeap(childIndex, data);
+        data[parentIndex] = data[minChildIndex];
+        data[minChildIndex] = temp;
+        Heap.adjustBigHeap(minChildIndex, data, priority);
       }
     }
-    static adjustInsertBigHeap(index, data) {
+    static adjustInsertBigHeap(index, data, priority) {
       const parentIndex = Math.floor((index - 1) / 2);
-      if (parentIndex < 0)
+      let curPriority = 0;
+      let parentPriority = 0;
+      if (parentIndex < 2)
         return;
-      if (data[index] > data[parentIndex]) {
+      if (priority && typeof data[0] === "object") {
+        const parentNode = data[parentIndex];
+        const curNode = data[index];
+        parentPriority = parentNode[priority];
+        curPriority = curNode[priority];
+      } else {
+        parentPriority = data[parentIndex];
+        curPriority = data[index];
+      }
+      if (curPriority > parentPriority) {
         const temp = data[parentIndex];
         data[parentIndex] = data[index];
         data[index] = temp;
-        Heap.adjustInsertBigHeap(parentIndex, data);
+        Heap.adjustInsertBigHeap(parentIndex, data, priority);
       }
     }
-    static adjustInsertSmallHeap(index, data) {
+    static adjustInsertSmallHeap(index, data, priority) {
       const parentIndex = Math.floor((index - 1) / 2);
-      if (parentIndex < 0)
+      let curPriority = 0;
+      let parentPriority = 0;
+      if (parentIndex <= 2)
         return;
-      if (data[index] < data[parentIndex]) {
+      if (priority && typeof data[0] === "object") {
+        const parentNode = data[parentIndex];
+        const curNode = data[index];
+        parentPriority = parentNode[priority];
+        curPriority = curNode[priority];
+      } else {
+        parentPriority = data[parentIndex];
+        curPriority = data[index];
+      }
+      if (curPriority < parentPriority) {
         const temp = data[parentIndex];
         data[parentIndex] = data[index];
         data[index] = temp;
-        Heap.adjustInsertSmallHeap(parentIndex, data);
+        Heap.adjustInsertSmallHeap(parentIndex, data, priority);
       }
     }
     initHeap() {
-      if (!this.data.length) {
+      if (this.data.length < 2) {
         return;
       } else {
         let i = Math.floor((this.data.length - 2) / 2);
         while (i >= 0) {
-          this.small ? Heap.adjustSmallHeap(i, this.data) : Heap.adjustBigHeap(i, this.data);
+          this.small ? Heap.adjustSmallHeap(i, this.data, this.priority) : Heap.adjustBigHeap(i, this.data, this.priority);
           i--;
         }
         return this;
       }
     }
-    insertElement(num) {
-      if (typeof num !== "number") {
-        console.error("insert error: the element must be a number!");
-      } else {
-        this.length = this.data.push(num);
-        if (this.length > 1) {
-          if (this.small) {
-            Heap.adjustInsertSmallHeap(this.length - 1, this.data);
-          } else {
-            Heap.adjustInsertBigHeap(this.length - 1, this.data);
-          }
-        }
-        return this;
+    insertElement(item) {
+      if (typeof item !== "number" && typeof item !== "object") {
+        return console.error("insert error: the element must be a number or object!");
       }
+      if (typeof item === "object" && !item[this.priority]) {
+        return console.error(
+          "insert error: the element must has priority key when as a object!"
+        );
+      }
+      this.length = this.data.push(item);
+      if (this.length > 1) {
+        if (this.small) {
+          Heap.adjustInsertSmallHeap(this.length - 1, this.data, this.priority);
+        } else {
+          Heap.adjustInsertBigHeap(this.length - 1, this.data, this.priority);
+        }
+      }
+      return this;
     }
     insertElements(numArr) {
       if (Array.isArray(numArr)) {
@@ -115,15 +197,16 @@
     }
     popMax() {
       let result = null;
-      if (!this.data.length) {
+      const data = this.data;
+      if (!data.length) {
         console.error("popMax error: heap is empty now!");
+      } else if (data.length === 1) {
+        result = data.shift();
       } else {
-        result = this.data.shift();
-        if (this.data.length > 1) {
-          const last = this.data.pop();
-          this.data.unshift(last);
-          this.small ? Heap.adjustSmallHeap(0, this.data) : Heap.adjustBigHeap(0, this.data);
-        }
+        result = data[0];
+        data[0] = data[data.length - 1];
+        data.pop();
+        this.small ? Heap.adjustSmallHeap(0, this.data, this.priority) : Heap.adjustBigHeap(0, this.data, this.priority);
       }
       return result;
     }
