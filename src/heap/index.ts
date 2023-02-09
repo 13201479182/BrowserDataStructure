@@ -35,7 +35,7 @@ class Heap {
     static adjustBigHeap(parentIndex: number, data: heapData) {
         let childIndex = 2 * parentIndex + 1;
 
-        // 向下调整堆临界条件为子节点存在
+        // 向下调整堆临界条件为左子节点存在
         if (childIndex >= data.length) return;
 
         // 在右子节点大于左子节点的情况下更新childIndex为右子节点的索引
@@ -165,8 +165,46 @@ class Heap {
                     console.error(`insert error: the index ${i} must be a number!`);
                 }
             }
+            return this;
+        } else {
+            console.error('insert error: the elements must be a number array!');
         }
-        return this;
+    }
+
+    // 单次堆顶出堆
+    popMax() {
+        let result: null | number = null;
+
+        if (!this.data.length) {
+            console.error('popMax error: heap is empty now!');
+        } else {
+            result = this.data.shift() as number;
+
+            if (this.data.length > 1) {
+                const last = this.data.pop() as number;
+                // 将尾部元素移动至首部
+                this.data.unshift(last);
+                // 向下调整根节点元素
+                this.small ? Heap.adjustSmallHeap(0, this.data) : Heap.adjustBigHeap(0, this.data);
+            }
+        }
+        return result;
+    }
+
+    // 多次堆顶出堆
+    popMaxs(count: number) {
+        const results = [];
+
+        if (typeof count !== 'number' || count <= 0) {
+            console.error('popMaxs error: argument count must be a integer greater than 0!');
+        } else if (count > this.data.length) {
+            console.error('popMaxs error: argument count greater than heap size!');
+        } else {
+            for (let i = 0; i < count; i++) {
+                results.push(this.popMax());
+            }
+        }
+        return results;
     }
 }
 

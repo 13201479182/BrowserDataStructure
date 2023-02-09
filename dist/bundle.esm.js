@@ -22,6 +22,8 @@ var Heap = class {
   }
   static adjustBigHeap(parentIndex, data) {
     let childIndex = 2 * parentIndex + 1;
+    if (childIndex >= data.length)
+      return;
     if (data[childIndex] && data[childIndex + 1] && data[childIndex + 1] > data[childIndex]) {
       childIndex = childIndex + 1;
     }
@@ -34,6 +36,8 @@ var Heap = class {
   }
   static adjustSmallHeap(parentIndex, data) {
     let childIndex = 2 * parentIndex + 1;
+    if (childIndex >= data.length)
+      return;
     if (data[childIndex] && data[childIndex + 1] && data[childIndex + 1] < data[childIndex]) {
       childIndex = childIndex + 1;
     }
@@ -46,6 +50,8 @@ var Heap = class {
   }
   static adjustInsertBigHeap(index, data) {
     const parentIndex = Math.floor((index - 1) / 2);
+    if (parentIndex < 0)
+      return;
     if (data[index] > data[parentIndex]) {
       const temp = data[parentIndex];
       data[parentIndex] = data[index];
@@ -55,6 +61,8 @@ var Heap = class {
   }
   static adjustInsertSmallHeap(index, data) {
     const parentIndex = Math.floor((index - 1) / 2);
+    if (parentIndex < 0)
+      return;
     if (data[index] < data[parentIndex]) {
       const temp = data[parentIndex];
       data[parentIndex] = data[index];
@@ -98,8 +106,37 @@ var Heap = class {
           console.error(`insert error: the index ${i} must be a number!`);
         }
       }
+      return this;
+    } else {
+      console.error("insert error: the elements must be a number array!");
     }
-    return this;
+  }
+  popMax() {
+    let result = null;
+    if (!this.data.length) {
+      console.error("popMax error: heap is empty now!");
+    } else {
+      result = this.data.shift();
+      if (this.data.length > 1) {
+        const last = this.data.pop();
+        this.data.unshift(last);
+        this.small ? Heap.adjustSmallHeap(0, this.data) : Heap.adjustBigHeap(0, this.data);
+      }
+    }
+    return result;
+  }
+  popMaxs(count) {
+    const results = [];
+    if (typeof count !== "number" || count <= 0) {
+      console.error("popMaxs error: argument count must be a integer greater than 0!");
+    } else if (count > this.data.length) {
+      console.error("popMaxs error: argument count greater than heap size!");
+    } else {
+      for (let i = 0; i < count; i++) {
+        results.push(this.popMax());
+      }
+    }
+    return results;
   }
 };
 var global = window;
