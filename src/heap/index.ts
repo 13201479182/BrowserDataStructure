@@ -35,6 +35,9 @@ class Heap {
     static adjustBigHeap(parentIndex: number, data: heapData) {
         let childIndex = 2 * parentIndex + 1;
 
+        // 向下调整堆临界条件为子节点存在
+        if (childIndex >= data.length) return;
+
         // 在右子节点大于左子节点的情况下更新childIndex为右子节点的索引
         if (data[childIndex] && data[childIndex + 1] && data[childIndex + 1] > data[childIndex]) {
             childIndex = childIndex + 1;
@@ -57,6 +60,9 @@ class Heap {
      */
     static adjustSmallHeap(parentIndex: number, data: heapData) {
         let childIndex = 2 * parentIndex + 1;
+
+        // 向下调整堆临界条件为子节点存在
+        if (childIndex >= data.length) return;
 
         // 在右子节点小于左子节点的情况下更新childIndex为右子节点的索引
         if (data[childIndex] && data[childIndex + 1] && data[childIndex + 1] < data[childIndex]) {
@@ -81,6 +87,9 @@ class Heap {
     static adjustInsertBigHeap(index: number, data: heapData) {
         const parentIndex = Math.floor((index - 1) / 2);
 
+        // 向上调整堆临界条件为父节点存在
+        if (parentIndex < 0) return;
+
         // 大堆,仅当子节点大于父节点时,需要向上调整
         if (data[index] > data[parentIndex]) {
             const temp = data[parentIndex];
@@ -97,6 +106,9 @@ class Heap {
      */
     static adjustInsertSmallHeap(index: number, data: heapData) {
         const parentIndex = Math.floor((index - 1) / 2);
+
+        // 向上调整堆临界条件为父节点存在
+        if (parentIndex < 0) return;
 
         // 小堆,仅当子节点小于父节点时,需要向上调整
         if (data[index] < data[parentIndex]) {
