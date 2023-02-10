@@ -1,5 +1,4 @@
-import * as Heap from './heap/index';
+import Heap from './heap/Heap';
 
-export default {
-    ...Heap,
-};
+// 堆的导出
+export { Heap };

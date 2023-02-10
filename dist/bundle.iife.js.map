@@ -1,7 +1,7 @@
 {
   "version": 3,
-  "sources": ["../src/heap/index.ts", "../src/heap/Heap.ts", "../src/heap/HeapObject.ts", "../src/index.ts"],
-  "sourcesContent": ["import HeapNumber from './Heap';\r\nimport HeapObject from './HeapObject';\r\n\r\nexport { HeapNumber, HeapObject };\r\n", "class HeapNumber {}\r\n\r\nexport default HeapNumber;\r\n", "class HeapObject {}\r\n\r\nexport default HeapObject;\r\n", "import * as Heap from './heap/index';\r\n\r\nexport default {\r\n    ...Heap,\r\n};\r\n\n                        if (typeof window) {\n                            window.BDS = {\n                                Heap\n                            }\n                        }\n                    "],
-  "mappings": ";;;;;;;;;AAAA;AAAA;AAAA;AAAA;AAAA;;;ACAA,MAAM,aAAN,MAAiB;AAAA,EAAC;AAElB,MAAO,eAAQ;;;ACFf,MAAM,aAAN,MAAiB;AAAA,EAAC;AAElB,MAAO,qBAAQ;;;ACAf,MAAO,cAAQ;AAAA,IACX,GAAG;AAAA,EACP;AAEwB,MAAI,OAAO,QAAQ;AACf,WAAO,MAAM;AAAA,MACT;AAAA,IACJ;AAAA,EACJ;",
+  "sources": ["../src/heap/Heap.ts", "../src/index.ts"],
+  "sourcesContent": ["class Heap {\r\n    constructor() {\r\n        console.log('my name is heap!');\r\n    }\r\n}\r\n\r\nexport default Heap;\r\n", "import Heap from './heap/Heap';\r\n\r\n// \u5806\u7684\u5BFC\u51FA\r\nexport { Heap };\r\n\n                        if (typeof window) {\n                            window.BDS = {\n                                Heap\n                            }\n                        }\n                    "],
+  "mappings": ";;;AAAA,MAAM,OAAN,MAAW;AAAA,IACP,cAAc;AACV,cAAQ,IAAI,kBAAkB;AAAA,IAClC;AAAA,EACJ;AAEA,MAAO,eAAQ;;;ACDS,MAAI,OAAO,QAAQ;AACf,WAAO,MAAM;AAAA,MACT;AAAA,IACJ;AAAA,EACJ;",
   "names": []
 }
