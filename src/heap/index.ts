@@ -55,8 +55,14 @@ class Heap {
      * @param parentIndex   调整的父节点索引
      * @param data          调整的堆的物理存储
      * @param priority      数据优先级的key值
+     * @param downIndex     递归调整的边界索引
      */
-    static adjustBigHeap(parentIndex: number, data: HeapData, priority: string) {
+    static adjustBigHeap(
+        parentIndex: number,
+        data: HeapData,
+        priority: string,
+        downIndex?: number,
+    ) {
         const childIndex = 2 * parentIndex + 1;
         let parentPriority = 0;
         let leftPriority = 0;
@@ -67,6 +73,8 @@ class Heap {
 
         // 向下调整堆临界条件为左子节点存在
         if (childIndex >= data.length) return;
+        // 左子节点超过上限
+        if (typeof downIndex === 'number' && childIndex > downIndex) return;
 
         // 更新父节点左右子节点的priority
         if (priority && typeof data[0] === 'object') {
@@ -86,8 +94,13 @@ class Heap {
 
         // 在右子节点优先级大于左子节点优先级的情况下更新maxChildPriority
         if (data[childIndex + 1] && rightPriority > leftPriority) {
-            maxChildIndex = childIndex + 1;
-            maxChildPriority = rightPriority;
+            if (
+                typeof downIndex === 'undefined' ||
+                (typeof downIndex === 'number' && childIndex + 1 <= downIndex)
+            ) {
+                maxChildIndex = childIndex + 1;
+                maxChildPriority = rightPriority;
+            }
         }
 
         // 在父节点优先级小于最大子节点优先级的情况下需要递归处理
@@ -96,7 +109,7 @@ class Heap {
             data[parentIndex] = data[maxChildIndex];
             data[maxChildIndex] = temp;
             // 递归处理子节点
-            Heap.adjustBigHeap(maxChildIndex, data, priority);
+            Heap.adjustBigHeap(maxChildIndex, data, priority, downIndex);
         }
     }
 
@@ -106,7 +119,12 @@ class Heap {
      * @param data          调整的堆的物理存储
      * @param priority      数据优先级的key值
      */
-    static adjustSmallHeap(parentIndex: number, data: HeapData, priority: string) {
+    static adjustSmallHeap(
+        parentIndex: number,
+        data: HeapData,
+        priority: string,
+        downIndex?: number,
+    ) {
         const childIndex = 2 * parentIndex + 1;
         let parentPriority = 0;
         let leftPriority = 0;
@@ -117,6 +135,8 @@ class Heap {
 
         // 向下调整堆临界条件为左子节点存在
         if (childIndex >= data.length) return;
+        // 左子节点超过上限
+        if (typeof downIndex === 'number' && childIndex > downIndex) return;
 
         // 更新父节点左右子节点的priority
         if (priority && typeof data[0] === 'object') {
@@ -134,19 +154,24 @@ class Heap {
             data[childIndex + 1] ? (rightPriority = data[childIndex + 1] as number) : null;
         }
 
-        // 在右子节点优先级大于左子节点优先级的情况下更新maxChildPriority
-        if (data[childIndex + 1] && rightPriority > leftPriority) {
-            minChildIndex = childIndex + 1;
-            minChildPriority = rightPriority;
+        // 在右子节点优先级小于左子节点优先级的情况下更新minChildPriority
+        if (data[childIndex + 1] && rightPriority < leftPriority) {
+            if (
+                typeof downIndex === 'undefined' ||
+                (typeof downIndex === 'number' && childIndex + 1 <= downIndex)
+            ) {
+                minChildIndex = childIndex + 1;
+                minChildPriority = rightPriority;
+            }
         }
 
         // 在父节点优先级小于最大子节点优先级的情况下需要递归处理
-        if (parentPriority < minChildPriority) {
+        if (parentPriority > minChildPriority) {
             const temp = data[parentIndex];
             data[parentIndex] = data[minChildIndex];
             data[minChildIndex] = temp;
             // 递归处理子节点
-            Heap.adjustBigHeap(minChildIndex, data, priority);
+            Heap.adjustSmallHeap(minChildIndex, data, priority, downIndex);
         }
     }
 
@@ -282,8 +307,8 @@ class Heap {
         }
     }
 
-    // 单次堆顶出堆
-    popMax() {
+    // 堆顶弹出一个元素
+    popElement() {
         let result: null | number | DataObj = null;
         const data = this.data;
 
@@ -309,8 +334,8 @@ class Heap {
         return result;
     }
 
-    // 多次堆顶出堆
-    popMaxs(count: number) {
+    // 堆顶弹出多个元素
+    popElements(count: number) {
         const results = [];
 
         if (typeof count !== 'number' || count <= 0) {
@@ -319,10 +344,39 @@ class Heap {
             console.error('popMaxs error: argument count greater than heap size!');
         } else {
             for (let i = 0; i < count; i++) {
-                results.push(this.popMax());
+                results.push(this.popElement());
             }
         }
         return results;
+    }
+
+    /**
+     * 堆排序核心:
+     *  1. 利用插入排序思想,进行length-1次首尾元素顺序交换
+     *  2. 每次交换需要递归调整堆顶的位置
+     */
+    sort() {
+        const data = this.data;
+        let len = data.length;
+
+        /**
+         * 小堆排序: 产生降序,优先级高的可以pop出来
+         * 大堆排序: 产生升序,优先级高的可以pop出来
+         */
+        while (len > 1) {
+            // 交换顺序
+            const temp = data[0];
+            data[0] = data[len - 1];
+            data[len - 1] = temp;
+
+            // 调整根节点位置
+            this.small
+                ? Heap.adjustSmallHeap(0, data, this.priority, len - 2)
+                : Heap.adjustBigHeap(0, data, this.priority, len - 2);
+
+            len--;
+        }
+        return this;
     }
 }
 

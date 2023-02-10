@@ -62,7 +62,7 @@ var Heap = class {
       }
     });
   }
-  static adjustBigHeap(parentIndex, data, priority) {
+  static adjustBigHeap(parentIndex, data, priority, downIndex) {
     const childIndex = 2 * parentIndex + 1;
     let parentPriority = 0;
     let leftPriority = 0;
@@ -71,6 +71,8 @@ var Heap = class {
     let maxChildPriority = 0;
     if (childIndex >= data.length)
       return;
+    if (typeof downIndex === "number" && childIndex > downIndex)
+      return;
     if (priority && typeof data[0] === "object") {
       const parentNode = data[parentIndex];
       const leftNode = data[childIndex];
@@ -86,17 +88,19 @@ var Heap = class {
       data[childIndex + 1] ? rightPriority = data[childIndex + 1] : null;
     }
     if (data[childIndex + 1] && rightPriority > leftPriority) {
-      maxChildIndex = childIndex + 1;
-      maxChildPriority = rightPriority;
+      if (typeof downIndex === "undefined" || typeof downIndex === "number" && childIndex + 1 <= downIndex) {
+        maxChildIndex = childIndex + 1;
+        maxChildPriority = rightPriority;
+      }
     }
     if (parentPriority < maxChildPriority) {
       const temp = data[parentIndex];
       data[parentIndex] = data[maxChildIndex];
       data[maxChildIndex] = temp;
-      Heap.adjustBigHeap(maxChildIndex, data, priority);
+      Heap.adjustBigHeap(maxChildIndex, data, priority, downIndex);
     }
   }
-  static adjustSmallHeap(parentIndex, data, priority) {
+  static adjustSmallHeap(parentIndex, data, priority, downIndex) {
     const childIndex = 2 * parentIndex + 1;
     let parentPriority = 0;
     let leftPriority = 0;
@@ -104,6 +108,8 @@ var Heap = class {
     let minChildIndex = childIndex;
     let minChildPriority = 0;
     if (childIndex >= data.length)
+      return;
+    if (typeof downIndex === "number" && childIndex > downIndex)
       return;
     if (priority && typeof data[0] === "object") {
       const parentNode = data[parentIndex];
@@ -119,15 +125,17 @@ var Heap = class {
       minChildPriority = leftPriority;
       data[childIndex + 1] ? rightPriority = data[childIndex + 1] : null;
     }
-    if (data[childIndex + 1] && rightPriority > leftPriority) {
-      minChildIndex = childIndex + 1;
-      minChildPriority = rightPriority;
+    if (data[childIndex + 1] && rightPriority < leftPriority) {
+      if (typeof downIndex === "undefined" || typeof downIndex === "number" && childIndex + 1 <= downIndex) {
+        minChildIndex = childIndex + 1;
+        minChildPriority = rightPriority;
+      }
     }
-    if (parentPriority < minChildPriority) {
+    if (parentPriority > minChildPriority) {
       const temp = data[parentIndex];
       data[parentIndex] = data[minChildIndex];
       data[minChildIndex] = temp;
-      Heap.adjustBigHeap(minChildIndex, data, priority);
+      Heap.adjustSmallHeap(minChildIndex, data, priority, downIndex);
     }
   }
   static adjustInsertBigHeap(index, data, priority) {
@@ -219,7 +227,7 @@ var Heap = class {
       console.error("insert error: the elements must be a number array!");
     }
   }
-  popMax() {
+  popElement() {
     let result = null;
     const data = this.data;
     if (!data.length) {
@@ -234,7 +242,7 @@ var Heap = class {
     }
     return result;
   }
-  popMaxs(count) {
+  popElements(count) {
     const results = [];
     if (typeof count !== "number" || count <= 0) {
       console.error("popMaxs error: argument count must be a integer greater than 0!");
@@ -242,10 +250,22 @@ var Heap = class {
       console.error("popMaxs error: argument count greater than heap size!");
     } else {
       for (let i = 0; i < count; i++) {
-        results.push(this.popMax());
+        results.push(this.popElement());
       }
     }
     return results;
+  }
+  sort() {
+    const data = this.data;
+    let len = data.length;
+    while (len > 1) {
+      const temp = data[0];
+      data[0] = data[len - 1];
+      data[len - 1] = temp;
+      this.small ? Heap.adjustSmallHeap(0, data, this.priority, len - 2) : Heap.adjustBigHeap(0, data, this.priority, len - 2);
+      len--;
+    }
+    return this;
   }
 };
 var global = window;
