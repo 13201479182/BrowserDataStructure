@@ -38,7 +38,7 @@ function iifeResourcePlugin() {
                 // iife需要在window上暴露
                 if (target === 'iife') {
                     let code = fs.readFileSync(args.path, 'utf-8'),
-                        modules = code.match(/(?<=import\s)[a-zA-Z]+/g);
+                        modules = code.match(/[a-zA-Z]+(?=\sfrom)/g);
 
                     code += `
                         if (typeof window) {

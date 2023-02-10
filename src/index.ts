@@ -1,7 +1,5 @@
-import Heap from './heap/index';
-import Stack from './stack/index';
+import * as Heap from './heap/index';
 
 export default {
-    Heap,
-    Stack,
+    ...Heap,
 };
