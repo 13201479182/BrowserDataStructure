@@ -10,7 +10,17 @@ let count = 1;
 Object.defineProperties(testGlobal, {
     count: {
         get() {
-            return count++;
+            let str = String(count);
+            count++;
+            str =
+                str.length === 1
+                    ? (str += '---')
+                    : str.length === 2
+                    ? (str += '--')
+                    : str.length === 3
+                    ? (str += '-')
+                    : '';
+            return str;
         },
     },
 });
