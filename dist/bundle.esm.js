@@ -58,11 +58,12 @@ var Heap = class {
       rightPriority
     };
   }
-  static adjustDownHeap(parentIndex, data, priority, small) {
+  static adjustDownHeap(parentIndex, data, priority, small, maxIndex) {
     const childIndex = parentIndex * 2 + 1;
     let childExtrenum = 0;
     let childExtrenumIndex = childIndex;
-    if (childIndex > data.length - 1)
+    maxIndex = typeof maxIndex === "number" ? maxIndex : data.length - 1;
+    if (childIndex > maxIndex)
       return;
     const { parentPriority, leftPriority, rightPriority } = Heap.calcuPriority(
       data[parentIndex],
@@ -71,7 +72,7 @@ var Heap = class {
       priority
     );
     childExtrenum = leftPriority;
-    if (rightPriority) {
+    if (rightPriority && childIndex + 1 <= maxIndex) {
       if (small) {
         if (rightPriority < leftPriority) {
           childExtrenum = rightPriority;
@@ -89,14 +90,14 @@ var Heap = class {
         const temp = data[parentIndex];
         data[parentIndex] = data[childExtrenumIndex];
         data[childExtrenumIndex] = temp;
-        Heap.adjustDownHeap(childExtrenumIndex, data, priority, small);
+        Heap.adjustDownHeap(childExtrenumIndex, data, priority, small, maxIndex);
       }
     } else {
       if (parentPriority < childExtrenum) {
         const temp = data[parentIndex];
         data[parentIndex] = data[childExtrenumIndex];
         data[childExtrenumIndex] = temp;
-        Heap.adjustDownHeap(childExtrenumIndex, data, priority, small);
+        Heap.adjustDownHeap(childExtrenumIndex, data, priority, small, maxIndex);
       }
     }
   }
@@ -140,7 +141,6 @@ var Heap = class {
           if (small !== newVal) {
             small = newVal;
             this.initHeap();
-            return this;
           }
         }
       },
@@ -153,7 +153,6 @@ var Heap = class {
           if (newVal && priority !== newVal) {
             priority = newVal;
             this.initHeap();
-            return this;
           }
         }
       }
@@ -185,6 +184,43 @@ var Heap = class {
     data.push(element);
     data.length > 1 ? Heap.adjustUpHeap(data.length - 1, data, this.priority, this.small) : null;
     return this;
+  }
+  insertElements(elements) {
+    if (!elements || !Array.isArray(elements))
+      throw new Error(`insert error: insertElements argument must be a element array!`);
+    elements.forEach((element) => {
+      this.insertElement(element);
+    });
+  }
+  popElement() {
+    const data = this.data;
+    const len = data.length;
+    if (!len) {
+      throw new Error(`'pop error: heap now is empty, popElement is invalid!'`);
+    } else if (len === 1) {
+      return data.pop();
+    } else {
+      const temp = data[0];
+      data[0] = data[len - 1];
+      data[len - 1] = temp;
+      Heap.adjustDownHeap(0, data, this.priority, this.small, len - 2);
+      return data.pop();
+    }
+  }
+  popElements(count) {
+    const data = this.data;
+    const results = [];
+    if (typeof count !== "number" || count < 1)
+      return new Error(
+        `pop error: popElements argument must be a integer that greater than 0!`
+      );
+    if (count > data.length)
+      return new Error(`popMaxs error: argument count greater than heap size!`);
+    for (let i = 0; i < count; i++) {
+      const heapTop = this.popElement();
+      results.push(heapTop);
+    }
+    return results;
   }
 };
 var global = window;

@@ -111,15 +111,28 @@ class Heap {
      * @param data
      * @param priority
      * @param small
+     * @param maxIndex 向下调整时支持的最大索引(边界)
      * @returns
      */
-    static adjustDownHeap(parentIndex: number, data: HeapData, priority: string, small: boolean) {
+    static adjustDownHeap(
+        parentIndex: number,
+        data: HeapData,
+        priority: string,
+        small: boolean,
+        maxIndex?: number,
+    ) {
         const childIndex = parentIndex * 2 + 1;
         let childExtrenum = 0;
         let childExtrenumIndex = childIndex;
 
-        // 当不存在左子节点时,不需要进行下调
-        if (childIndex > data.length - 1) return;
+        /**
+         * 初始化向下调整的最大边界
+         * 1. 不存在最大边界时,最大边界初始化数组的最后一个元素的索引
+         * 2. 存在最大边界时,最大边界初始化maxIndex
+         * 3. 当元素的左子节点超出最大边界时,不需要向下调整
+         */
+        maxIndex = typeof maxIndex === 'number' ? maxIndex : data.length - 1;
+        if (childIndex > maxIndex) return;
 
         // 计算且返回父节点,左子节点,右子节点的权重
         const { parentPriority, leftPriority, rightPriority } = Heap.calcuPriority(
@@ -130,8 +143,12 @@ class Heap {
         );
         childExtrenum = leftPriority;
 
-        // 更新左右节点中的极值
-        if (rightPriority) {
+        /**
+         * 更新极值为右节点的权重
+         * 1. 右节点权重存在
+         * 2. 右节点索引在最大边界内
+         */
+        if (rightPriority && childIndex + 1 <= maxIndex) {
             if (small) {
                 // 小堆更新极值为左右节点中最小的
                 if (rightPriority < leftPriority) {
@@ -154,7 +171,7 @@ class Heap {
                 data[parentIndex] = data[childExtrenumIndex];
                 data[childExtrenumIndex] = temp;
                 // 递归调整交换后的子节点的位置
-                Heap.adjustDownHeap(childExtrenumIndex, data, priority, small);
+                Heap.adjustDownHeap(childExtrenumIndex, data, priority, small, maxIndex);
             }
         } else {
             if (parentPriority < childExtrenum) {
@@ -162,7 +179,7 @@ class Heap {
                 data[parentIndex] = data[childExtrenumIndex];
                 data[childExtrenumIndex] = temp;
                 // 递归处理子节点
-                Heap.adjustDownHeap(childExtrenumIndex, data, priority, small);
+                Heap.adjustDownHeap(childExtrenumIndex, data, priority, small, maxIndex);
             }
         }
     }
@@ -322,6 +339,54 @@ class Heap {
         elements.forEach((element) => {
             this.insertElement(element);
         });
+    }
+
+    /**
+     * 从堆顶移除元素
+     * 1. 将首尾元素交换
+     * 2. 尾部元素出堆
+     * 3. 首部元素递归向下调整顺序
+     */
+    popElement() {
+        const data = this.data;
+        const len = data.length;
+
+        if (!len) {
+            throw new Error(`'pop error: heap now is empty, popElement is invalid!'`);
+        } else if (len === 1) {
+            return data.pop();
+        } else {
+            // 元素个数大于两个
+            const temp = data[0];
+            data[0] = data[len - 1];
+            data[len - 1] = temp;
+            // 向下递归调整堆顶的位置
+            Heap.adjustDownHeap(0, data, this.priority, this.small, len - 2);
+
+            return data.pop();
+        }
+    }
+
+    /**
+     * 从堆顶批量移除元素
+     */
+    popElements(count: number) {
+        const data = this.data;
+        const results: HeapData = [];
+
+        if (typeof count !== 'number' || count < 1)
+            return new Error(
+                `pop error: popElements argument must be a integer that greater than 0!`,
+            );
+        if (count > data.length)
+            return new Error(`popMaxs error: argument count greater than heap size!`);
+
+        // 执行count次出顶操作,且保存结果集
+        for (let i = 0; i < count; i++) {
+            const heapTop = this.popElement() as DataItem;
+            results.push(heapTop);
+        }
+        return results;
     }
 }
 
