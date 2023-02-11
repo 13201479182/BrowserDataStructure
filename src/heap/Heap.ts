@@ -309,6 +309,20 @@ class Heap {
         // 返回实例自身,以支持链式操作
         return this;
     }
+
+    /**
+     * 批量插入元素
+     * @param elements
+     */
+    insertElements(elements: HeapData) {
+        if (!elements || !Array.isArray(elements))
+            throw new Error(`insert error: insertElements argument must be a element array!`);
+
+        // 依次对元素使用插入操作
+        elements.forEach((element) => {
+            this.insertElement(element);
+        });
+    }
 }
 
 const global: MyGlobal = window;
