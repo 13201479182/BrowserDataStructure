@@ -6,7 +6,7 @@
     "module": "./src/index.ts",
     "scripts": {
         "build": "set target=cjs&node ./esbuild.config.cjs && set target=esm & node ./esbuild.config.cjs && set target=iife & node ./esbuild.config.cjs",
-        "test": "jest && node -e require('open')('./coverage/lcov-report/index.html')",
+        "test": "jest ./test/index.test.ts",
         "lint": "eslint .",
         "lint:fix": "eslint --fix --ext .js,.cjs,.ts, .",
         "commit": "gitmoji -c"

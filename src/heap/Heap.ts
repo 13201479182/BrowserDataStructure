@@ -420,7 +420,4 @@ class Heap {
     }
 }
 
-const global: MyGlobal = window;
-global.heap = new Heap([3, 10, 19, 8, 6]);
-
 export default Heap;
