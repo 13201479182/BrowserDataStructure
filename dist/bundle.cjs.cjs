@@ -217,6 +217,7 @@ var Heap = class {
     elements.forEach((element) => {
       this.insertElement(element);
     });
+    return this;
   }
   popElement() {
     const data = this.data;
@@ -247,6 +248,18 @@ var Heap = class {
       results.push(heapTop);
     }
     return results;
+  }
+  sort() {
+    const data = this.data;
+    let len = data.length;
+    while (len > 1) {
+      const temp = data[0];
+      data[0] = data[len - 1];
+      data[len - 1] = temp;
+      Heap.adjustDownHeap(0, data, this.priority, this.small, len - 2);
+      len--;
+    }
+    return this;
   }
 };
 var global = window;

@@ -22,7 +22,7 @@ class Heap {
         // 不存在元素时,验证通过
         if (len === 0) return true;
 
-        // 依次验证,利用错误终端机制
+        // 依次验证,利用错误中断机制
         for (let i = 0; i < len; i++) {
             Heap.validateDataItem(data[i], priority, i);
         }
@@ -339,6 +339,8 @@ class Heap {
         elements.forEach((element) => {
             this.insertElement(element);
         });
+        // 返回实例自身,以支持链式操作
+        return this;
     }
 
     /**
@@ -387,6 +389,34 @@ class Heap {
             results.push(heapTop);
         }
         return results;
+    }
+
+    /**
+     * 堆排序
+     * 1. 利用插入排序思想,进行length-1次首尾元素顺序交换
+     * 2. 每次交换需要递归调整堆顶的位置
+     * 3. 递归调整时不需要考虑已经调整好的元素
+     */
+    sort() {
+        const data = this.data;
+        let len = data.length;
+
+        /**
+         * 小堆排序: 产生降序,优先级高的可以pop出来
+         * 大堆排序: 产生升序,优先级高的可以pop出来
+         */
+        while (len > 1) {
+            // 交换顺序
+            const temp = data[0];
+            data[0] = data[len - 1];
+            data[len - 1] = temp;
+
+            // 向下调整堆顶点位置
+            Heap.adjustDownHeap(0, data, this.priority, this.small, len - 2);
+            len--;
+        }
+        // 返回实例自身,以支持链式操作
+        return this;
     }
 }
 
