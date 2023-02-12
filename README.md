@@ -1,9 +1,8 @@
 # BrowserDataStructure
 
-<h3 style="font-style: italic">With this data structor, we provide three modes for you to choose, in browser environment, we recommend you choose iife mode, you can use a varible named BDS which we bind in the global, others, cjs and esm module you can also choose.<h3>
+### With this data structor, we provide three modes for you to choose, in browser environment, we recommend you choose iife mode, you can use a varible named BDS which we bind in the global, others, cjs and esm module you can also choose.
 
-<h3>The following is the data structure i have implemented and tested, the documentation comes from a project called javascript-algorithms<h3>
- 
+### The following is the data structure I have implemented and tested, the documentation comes from a project called javascript-algorithms.
 - [1.heap](./docs/heap.md)
 
 ## code rules
