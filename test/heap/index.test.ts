@@ -1,3 +1,4 @@
-import './constructor.argument.test';
-import './public.method.test';
-import './complex.scene.test';
+import './argument.test';
+import './error.test';
+import './method.test';
+import './complex.test';

@@ -377,11 +377,11 @@ class Heap {
         const results: HeapData = [];
 
         if (typeof count !== 'number' || count < 1)
-            return new Error(
+            throw new Error(
                 `pop error: popElements argument must be a integer that greater than 0!`,
             );
         if (count > data.length)
-            return new Error(`popMaxs error: argument count greater than heap size!`);
+            throw new Error(`popMaxs error: argument count greater than heap size!`);
 
         // 执行count次出顶操作,且保存结果集
         for (let i = 0; i < count; i++) {
