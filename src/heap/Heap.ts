@@ -418,6 +418,18 @@ class Heap {
         // 返回实例自身,以支持链式操作
         return this;
     }
+
+    // 用于动态配置small的方法
+    setSmall(val: boolean) {
+        this.small = Boolean(val);
+        return this;
+    }
+
+    // 用于动态配置priority的方法
+    setPriority(val: string) {
+        if (val) this.priority = String(val);
+        return this;
+    }
 }
 
 export default Heap;

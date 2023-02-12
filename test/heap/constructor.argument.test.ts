@@ -2,7 +2,7 @@ import { Heap } from '../../src/index';
 import global from '../global';
 
 /**
- * 堆构造函数参数测试
+ * 堆参数测试
  */
 // 1. 测试参数是否支持可选
 test(`${global.count}heap:arguments 测试实例化时arguments可选`, () => {
