@@ -4,15 +4,15 @@
 
 在一个 *最小堆(min heap)* 中, 如果 `P` 是 `C` 的一个父级节点, 那么 `P`  的key(或value)应小于或等于 `C` 的对应值.
 
-![M最小堆](./images/min-heap.jpeg)
+![M最小堆](../images/min-heap.jpeg)
 
 *Made with [okso.app](https://okso.app)*
 
 在一个  *最大堆(max heap)* 中,  `P` 的key(或value)大于 `C` 的对应值。
 
-![堆](./images/max-heap.jpeg)
+![堆](../images/max-heap.jpeg)
 
-![Array Representation](./images/array-representation.jpeg)
+![Array Representation](../images/array-representation.jpeg)
 
 
 在堆“顶部”的没有父级节点的节点,被称之为根节点。
