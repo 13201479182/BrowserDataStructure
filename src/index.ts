@@ -1,8 +1,7 @@
 import Heap from './heap/Heap';
 
-// 堆的导出
-export { Heap };
+import LinkedList from './linkedList/linkedList';
+import DoubleLinkedList from './linkedList/doubleLinkedList';
 
-// 浏览器上方便测试
-// const global: MyGlobal = window;
-// global.xxx = new xxx([3, 10, 19, 8, 6]);
+// 堆的导出
+export { Heap, LinkedList, DoubleLinkedList };

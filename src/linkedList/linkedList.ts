@@ -1,21 +1,21 @@
 type LinkedListData = DataItem[];
-type LinkedListConstructorData = LinkedListData | undefined;
+type NextNode = DataItem | null;
 
 /**
- * 链表对应的每个节点
+ * 单向链表节点
  */
-class LinkedNodeList {
+class LinkedListNode {
     public value: DataItem;
-    public next: DataItem;
+    public next: NextNode;
 
-    constructor(value: DataItem, next: DataItem) {
+    constructor(value: DataItem, next: NextNode) {
         this.value = value;
-        this.next = next;
+        this.next = next || null;
     }
 }
 
 /**
- * 链表实现
+ * 单向链表实现
  */
 class LinkedList {}
 
