@@ -1,3 +1,5 @@
-declare interface MyGlobal extends Window {
-    heap?: any;
+declare interface ObjectItem {
+    [propName: string]: any;
 }
+declare type NumberItem = number;
+declare type DataItem = NumberItem | ObjectItem;

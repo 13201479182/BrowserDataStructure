@@ -1,5 +1,5 @@
-import type { NumberItem, ObjectItem, DataItem, HeapData, HeapDataArguments } from './type';
-
+type HeapData = DataItem[];
+type HeapConstructorData = HeapData | undefined;
 /**
  * 堆实现
  */
@@ -7,6 +7,53 @@ class Heap {
     public data: HeapData;
     public small: boolean;
     public priority: string;
+
+    /**
+     *
+     * @param data      依据data初始化堆
+     * @param small     是否为小顶堆
+     * @param priority  当data中数据项为对象时,此属性的值决定堆中元素的顺序
+     */
+    constructor(data?: HeapConstructorData, small?: boolean, priority?: string) {
+        // 初始化实例属性
+        this.data = [];
+        small = this.small = small ? true : false;
+        priority = this.priority = priority ? priority : '';
+
+        // 代理small&priority至实例上,变更时构建堆
+        Object.defineProperties(this, {
+            small: {
+                get() {
+                    return small;
+                },
+                set(newVal) {
+                    newVal = Boolean(newVal);
+                    if (small !== newVal) {
+                        small = newVal;
+                        this.initHeap();
+                    }
+                },
+            },
+            priority: {
+                get() {
+                    return priority;
+                },
+                set(newVal) {
+                    newVal = String(newVal);
+                    if (newVal && priority !== newVal) {
+                        priority = newVal;
+                        this.initHeap();
+                    }
+                },
+            },
+        });
+
+        // 数据一致性校验
+        if (Array.isArray(data) && Heap.validateHeapData(data, priority)) {
+            this.data = data;
+            this.initHeap(true);
+        }
+    }
 
     /**
      * 验证数据合法性和一致性
@@ -224,53 +271,6 @@ class Heap {
                 // 递归向上调整父节点位置
                 Heap.adjustUpHeap(parentIndex, data, priority, small);
             }
-        }
-    }
-
-    /**
-     *
-     * @param data      依据data初始化堆
-     * @param small     是否为小顶堆
-     * @param priority  当data中数据项为对象时,此属性的值决定堆中元素的顺序
-     */
-    constructor(data?: HeapDataArguments, small?: boolean, priority?: string) {
-        // 初始化实例属性
-        this.data = [];
-        small = this.small = small ? true : false;
-        priority = this.priority = priority ? priority : '';
-
-        // 代理small&priority至实例上,变更时构建堆
-        Object.defineProperties(this, {
-            small: {
-                get() {
-                    return small;
-                },
-                set(newVal) {
-                    newVal = Boolean(newVal);
-                    if (small !== newVal) {
-                        small = newVal;
-                        this.initHeap();
-                    }
-                },
-            },
-            priority: {
-                get() {
-                    return priority;
-                },
-                set(newVal) {
-                    newVal = String(newVal);
-                    if (newVal && priority !== newVal) {
-                        priority = newVal;
-                        this.initHeap();
-                    }
-                },
-            },
-        });
-
-        // 数据一致性校验
-        if (Array.isArray(data) && Heap.validateHeapData(data, priority)) {
-            this.data = data;
-            this.initHeap(true);
         }
     }
 
