@@ -1,25 +1,35 @@
-type DoubleLinkedListData = DataItem[];
-type PrevNode = DataItem | null;
-type NextNode = DataItem | null;
+/* eslint-disable  @typescript-eslint/no-explicit-any */
+type DataItem = any;
+type ListNode = DoubleLinkedListNode | null;
 
 /**
  * 双向链表节点
  */
 class DoubleLinkedListNode {
     public value: DataItem;
-    public prev: PrevNode;
-    public next: NextNode;
+    public prev: ListNode;
+    public next: ListNode;
 
-    constructor(value: DataItem, prev: PrevNode, next: NextNode) {
+    constructor(value: DataItem, prev: ListNode, next: ListNode) {
         this.value = value;
-        this.next = next || null;
         this.prev = prev || null;
+        this.next = next || null;
     }
 }
 
 /**
  * 双向链表实现
  */
-class DoubleLinkedList {}
+class DoubleLinkedList {
+    public length: number;
+    public head: ListNode;
+    public tail: ListNode;
+
+    constructor() {
+        this.length = 0;
+        this.head = null;
+        this.tail = null;
+    }
+}
 
 export default DoubleLinkedList;

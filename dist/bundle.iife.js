@@ -2,6 +2,41 @@
 (() => {
   // src/heap/Heap.ts
   var Heap = class {
+    constructor(data, small, priority) {
+      this.data = [];
+      small = this.small = small ? true : false;
+      priority = this.priority = priority ? priority : "";
+      Object.defineProperties(this, {
+        small: {
+          get() {
+            return small;
+          },
+          set(newVal) {
+            newVal = Boolean(newVal);
+            if (small !== newVal) {
+              small = newVal;
+              this.initHeap();
+            }
+          }
+        },
+        priority: {
+          get() {
+            return priority;
+          },
+          set(newVal) {
+            newVal = String(newVal);
+            if (newVal && priority !== newVal) {
+              priority = newVal;
+              this.initHeap();
+            }
+          }
+        }
+      });
+      if (Array.isArray(data) && Heap.validateHeapData(data, priority)) {
+        this.data = data;
+        this.initHeap(true);
+      }
+    }
     static validateHeapData(data, priority) {
       const len = data.length;
       if (len === 0)
@@ -129,41 +164,6 @@
         }
       }
     }
-    constructor(data, small, priority) {
-      this.data = [];
-      small = this.small = small ? true : false;
-      priority = this.priority = priority ? priority : "";
-      Object.defineProperties(this, {
-        small: {
-          get() {
-            return small;
-          },
-          set(newVal) {
-            newVal = Boolean(newVal);
-            if (small !== newVal) {
-              small = newVal;
-              this.initHeap();
-            }
-          }
-        },
-        priority: {
-          get() {
-            return priority;
-          },
-          set(newVal) {
-            newVal = String(newVal);
-            if (newVal && priority !== newVal) {
-              priority = newVal;
-              this.initHeap();
-            }
-          }
-        }
-      });
-      if (Array.isArray(data) && Heap.validateHeapData(data, priority)) {
-        this.data = data;
-        this.initHeap(true);
-      }
-    }
     initHeap(isVerify = false) {
       const isValid = isVerify ? true : Heap.validateHeapData(this.data, this.priority);
       const data = this.data;
@@ -214,11 +214,11 @@
       const data = this.data;
       const results = [];
       if (typeof count !== "number" || count < 1)
-        return new Error(
+        throw new Error(
           `pop error: popElements argument must be a integer that greater than 0!`
         );
       if (count > data.length)
-        return new Error(`popMaxs error: argument count greater than heap size!`);
+        throw new Error(`popMaxs error: argument count greater than heap size!`);
       for (let i = 0; i < count; i++) {
         const heapTop = this.popElement();
         results.push(heapTop);
@@ -237,15 +237,43 @@
       }
       return this;
     }
+    setSmall(val) {
+      this.small = Boolean(val);
+      return this;
+    }
+    setPriority(val) {
+      if (val)
+        this.priority = String(val);
+      return this;
+    }
   };
-  var global = window;
-  global.heap = new Heap([3, 10, 19, 8, 6]);
   var Heap_default = Heap;
+
+  // src/linkedList/linkedList.ts
+  var LinkedList = class {
+    constructor() {
+      this.length = 0;
+      this.head = null;
+    }
+  };
+  var linkedList_default = LinkedList;
+
+  // src/linkedList/doubleLinkedList.ts
+  var DoubleLinkedList = class {
+    constructor() {
+      this.length = 0;
+      this.head = null;
+      this.tail = null;
+    }
+  };
+  var doubleLinkedList_default = DoubleLinkedList;
 
   // src/index.ts
   if (typeof window) {
     window.BDS = {
-      Heap: Heap_default
+      Heap: Heap_default,
+      LinkedList: linkedList_default,
+      DoubleLinkedList: doubleLinkedList_default
     };
   }
 })();

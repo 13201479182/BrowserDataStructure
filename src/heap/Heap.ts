@@ -1,5 +1,7 @@
+type DataItem = number | ObjectItem;
 type HeapData = DataItem[];
 type HeapConstructorData = HeapData | undefined;
+
 /**
  * 堆实现
  */
@@ -102,7 +104,7 @@ class Heap {
             }
         } else {
             // 数据项为数字类型
-            item = item as NumberItem;
+            item = item as number;
             if (typeof item !== 'number') {
                 throw new Error(
                     `valid error: 在属性priority未提供的情况下,${msg}的元素,必须是number类型!`,
